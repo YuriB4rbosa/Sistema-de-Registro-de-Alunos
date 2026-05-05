@@ -1,0 +1,60 @@
+### Python ###
+# Ambientes Virtuais
+venv/
+env/
+ENV/
+.env/
+.venv/
+
+# Cache e arquivos compilados
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribuição / Pacotes
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+### Bancos de Dados ###
+# Se você quiser que cada pessoa tenha seu próprio banco de dados local
+# remova o '#' da linha abaixo:
+# database.json
+
+### IDEs e Editores ###
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+### Sistema Operacional ###
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Logs ###
+*.log
