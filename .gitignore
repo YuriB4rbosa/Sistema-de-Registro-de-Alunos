@@ -32,7 +32,8 @@ wheels/
 ### Bancos de Dados ###
 # Se você quiser que cada pessoa tenha seu próprio banco de dados local
 # remova o '#' da linha abaixo:
-# database.json
+ database.json
+ *.db
 
 ### IDEs e Editores ###
 # VS Code
