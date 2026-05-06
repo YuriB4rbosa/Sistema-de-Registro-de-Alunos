@@ -8,7 +8,7 @@ class LoginWindow(tk.Tk):
     def __init__(self, db):
         super().__init__()
         self.db = db
-        self.title("Login — Sistema Acadêmico")
+        self.title("Login — Sistema de Alunos")
         self.geometry("420x520")
         self.configure(bg=AZUL_ESCURO)
         self.resizable(False, False)
