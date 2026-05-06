@@ -25,4 +25,11 @@ Aplicação desktop completa para registro de alunos desenvolvida em Python, com
 
 🚀 Como Executar
 
-git clone https://github.com/seu-usuario/sistema-registro-alunos.git
+git clone https://github.com/YuriB4rbosa/sistema-registro-alunos.git
+cd sistema-alunos
+pip install -r requirements.txt
+
+
+# Caso queira ele como .exe 
+pip install pyinstaller
+python -m PyInstaller SistemaAcademico.spec
