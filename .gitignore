@@ -32,8 +32,8 @@ wheels/
 ### Bancos de Dados ###
 # Se você quiser que cada pessoa tenha seu próprio banco de dados local
 # remova o '#' da linha abaixo:
- database.json
- *.db
+database.json
+*.db
 
 ### IDEs e Editores ###
 # VS Code
@@ -59,3 +59,11 @@ Desktop.ini
 
 ### Logs ###
 *.log
+
+### PyInstaller ###
+build/
+*.spec
+
+### Projeto ###
+assets/fotos/
+backups/
