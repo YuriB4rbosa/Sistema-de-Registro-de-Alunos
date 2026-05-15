@@ -1,4 +1,4 @@
-from tkinter import ttk
+
 
 
 TEMA_CLARO = {
@@ -50,82 +50,7 @@ TEMA_ESCURO = {
     "ROXO_BG":     "#1E1030",
 }
 
-# ── Estado global do tema ────────────────────────────────────────
-_tema_atual = TEMA_CLARO.copy()
-
-
-def _aplicar_tema(tema):
-    global _tema_atual
-    _tema_atual = tema.copy()
-    
-    import utils.estilos as _self
-    for k, v in tema.items():
-        setattr(_self, k, v)
-
-
-def alternar_tema():
-    
-    import utils.estilos as _self
-    if _self.BRANCO == TEMA_CLARO["BRANCO"]:
-        _aplicar_tema(TEMA_ESCURO)
-        return "escuro"
-    else:
-        _aplicar_tema(TEMA_CLARO)
-        return "claro"
-
-
-def tema_escuro_ativo():
-    import utils.estilos as _self
-    return _self.BRANCO != TEMA_CLARO["BRANCO"]
 
 
 
-AZUL_ESCURO = TEMA_CLARO["AZUL_ESCURO"]
-AZUL_MEDIO  = TEMA_CLARO["AZUL_MEDIO"]
-AZUL_CLARO  = TEMA_CLARO["AZUL_CLARO"]
-AZUL_BORDA  = TEMA_CLARO["AZUL_BORDA"]
-BRANCO      = TEMA_CLARO["BRANCO"]
-CINZA_BG    = TEMA_CLARO["CINZA_BG"]
-CINZA_CARD  = TEMA_CLARO["CINZA_CARD"]
-CINZA_BORDA = TEMA_CLARO["CINZA_BORDA"]
-CINZA_TEXTO = TEMA_CLARO["CINZA_TEXTO"]
-CINZA_LABEL = TEMA_CLARO["CINZA_LABEL"]
-PRETO_TEXTO = TEMA_CLARO["PRETO_TEXTO"]
-VERDE       = TEMA_CLARO["VERDE"]
-VERDE_BG    = TEMA_CLARO["VERDE_BG"]
-VERMELHO    = TEMA_CLARO["VERMELHO"]
-VERMELHO_BG = TEMA_CLARO["VERMELHO_BG"]
-CORAL       = TEMA_CLARO["CORAL"]
-CORAL_BG    = TEMA_CLARO["CORAL_BG"]
-AMARELO_BG  = TEMA_CLARO["AMARELO_BG"]
-AMARELO     = TEMA_CLARO["AMARELO"]
-ROXO        = TEMA_CLARO["ROXO"]
-ROXO_BG     = TEMA_CLARO["ROXO_BG"]
 
-# ── Fontes ───────────────────────────────────────────────────────
-FONT_TITULO = ("Segoe UI", 11, "bold")
-FONT_LABEL  = ("Segoe UI", 9)
-FONT_ENTRY  = ("Segoe UI", 10)
-FONT_BTN    = ("Segoe UI", 9, "bold")
-FONT_TABELA = ("Segoe UI", 9)
-FONT_MONO   = ("Consolas", 9)
-
-
-def aplicar_estilo(root):
-    
-    import utils.estilos as e
-    s = ttk.Style(root)
-    s.theme_use("clam")
-    s.configure("Treeview",
-                background=e.BRANCO, foreground=e.PRETO_TEXTO,
-                fieldbackground=e.BRANCO, rowheight=30,
-                font=FONT_TABELA, borderwidth=0)
-    s.configure("Treeview.Heading",
-                background=e.CINZA_CARD, foreground=e.CINZA_LABEL,
-                font=("Segoe UI", 8, "bold"), relief="flat")
-    s.map("Treeview",
-          background=[("selected", e.AZUL_CLARO)],
-          foreground=[("selected", e.AZUL_ESCURO)])
-    s.configure("Vertical.TScrollbar",
-                background=e.CINZA_CARD, troughcolor=e.CINZA_BG,
-                borderwidth=0, arrowsize=12)
