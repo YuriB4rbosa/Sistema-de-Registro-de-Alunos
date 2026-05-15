@@ -1,5 +1,5 @@
 📚 Sistema de Registro de Alunos
-Aplicação desktop completa para registro de alunos desenvolvida em Python, com interface gráfica moderna e intuitiva utilizando Tkinter e CustomTkinter.
+Aplicação desktop completa para registro de alunos desenvolvida em Python, com interface gráfica moderna e intuitiva utilizando Tkinter e CustomTkinter (estou modificando o sistema para uma interface mais atualizada Pyside6).
 
 ✨ Funcionalidades
 - Cadastro de novos alunos com dados pessoais e acadêmicos
