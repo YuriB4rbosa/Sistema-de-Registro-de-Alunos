@@ -1,44 +1,187 @@
-import tkinter as tk
-from tkinter import ttk
+from PySide6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QVBoxLayout,
+    QFrame,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView
+)
 
-from utils.estilos import (BRANCO, CINZA_BG, CINZA_BORDA, PRETO_TEXTO,
-                            VERDE, AZUL_MEDIO, VERMELHO, FONT_TABELA)
-from utils.widgets import make_scrolled_tree
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 
 
-class HistoricoView(tk.Frame):
-    def __init__(self, parent, db):
-        super().__init__(parent, bg=CINZA_BG)
+class HistoricoView(QWidget):
+
+    def __init__(self, db):
+        super().__init__()
+
         self.db = db
-        self._build()
 
-    def _build(self):
-        tk.Label(self, text="Histórico de alterações",
-                 font=("Segoe UI", 14, "bold"),
-                 bg=CINZA_BG, fg=PRETO_TEXTO).pack(anchor="w", pady=(0, 12))
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #0F172A;
+                color: white;
+                font-family: 'Segoe UI';
+            }
 
-        card = tk.Frame(self, bg=BRANCO, bd=1, relief="solid",
-                        highlightthickness=1, highlightbackground=CINZA_BORDA)
-        card.pack(fill="both", expand=True)
+            QLabel#title {
+                font-size: 24px;
+                font-weight: bold;
+                color: white;
+            }
 
-        self._tree = make_scrolled_tree(card,
-            columns=("data","usuario","acao","id","nome","detalhes"),
-            headings_cfg={
-                "data":     ("Data/Hora",  130),
-                "usuario":  ("Usuário",     90),
-                "acao":     ("Ação",        80),
-                "id":       ("ID",          40),
-                "nome":     ("Aluno",      160),
-                "detalhes": ("Detalhes",   280),
-            })
+            QLabel#subtitle {
+                color: #94A3B8;
+                font-size: 13px;
+            }
 
-        self._tree.tag_configure("CADASTRO",    foreground=VERDE)
-        self._tree.tag_configure("ATUALIZAÇÃO", foreground=AZUL_MEDIO)
-        self._tree.tag_configure("EXCLUSÃO",    foreground=VERMELHO)
-        self._tree.tag_configure("PDF",         foreground="#4A1D96")
+            QFrame {
+                background-color: #1E293B;
+                border-radius: 18px;
+            }
+
+            QTableWidget {
+                background-color: #1E293B;
+                border: none;
+                border-radius: 14px;
+                gridline-color: #334155;
+                font-size: 13px;
+                color: white;
+            }
+
+            QHeaderView::section {
+                background-color: #334155;
+                color: white;
+                border: none;
+                padding: 12px;
+                font-weight: bold;
+            }
+
+            QScrollBar:vertical {
+                background: #1E293B;
+                width: 10px;
+                margin: 0px;
+            }
+
+            QScrollBar::handle:vertical {
+                background: #475569;
+                border-radius: 5px;
+                min-height: 30px;
+            }
+
+            QScrollBar::handle:vertical:hover {
+                background: #64748B;
+            }
+        """)
+
+        self.build_ui()
+
+    def build_ui(self):
+
+        main = QVBoxLayout()
+        main.setContentsMargins(25, 25, 25, 25)
+        main.setSpacing(18)
+
+        # ==================================================
+        # TÍTULO
+        # ==================================================
+
+        title = QLabel("📜 Histórico de Alterações")
+        title.setObjectName("title")
+
+        subtitle = QLabel(
+            "Registro completo das ações realizadas no sistema"
+        )
+        subtitle.setObjectName("subtitle")
+
+        main.addWidget(title)
+        main.addWidget(subtitle)
+
+        # ==================================================
+        # CARD DA TABELA
+        # ==================================================
+
+        card = QFrame()
+
+        card_layout = QVBoxLayout()
+        card_layout.setContentsMargins(20, 20, 20, 20)
+
+        self.table = QTableWidget()
+
+        self.table.setColumnCount(6)
+
+        self.table.setHorizontalHeaderLabels([
+            "Data/Hora",
+            "Usuário",
+            "Ação",
+            "ID",
+            "Aluno",
+            "Detalhes"
+        ])
+
+        self.table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.Stretch
+        )
+
+        self.table.setSelectionBehavior(
+            QTableWidget.SelectRows
+        )
+
+        self.table.setEditTriggers(
+            QTableWidget.NoEditTriggers
+        )
+
+        self.table.verticalHeader().setVisible(False)
+
+        card_layout.addWidget(self.table)
+
+        card.setLayout(card_layout)
+
+        main.addWidget(card)
+
+        self.setLayout(main)
+
+    # ======================================================
+    # ATUALIZAR TABELA
+    # ======================================================
 
     def atualizar(self):
-        for item in self._tree.get_children():
-            self._tree.delete(item)
-        for row in self.db.historico.listar():
-            self._tree.insert("", "end", values=row, tags=(row[2],))
+
+        historico = self.db.historico.listar()
+
+        self.table.setRowCount(len(historico))
+
+        for row_idx, row in enumerate(historico):
+
+            acao = row[2]
+
+            for col_idx, value in enumerate(row):
+
+                item = QTableWidgetItem(str(value))
+
+                # Zebra rows
+                if row_idx % 2 == 0:
+                    item.setBackground(QColor("#1E293B"))
+                else:
+                    item.setBackground(QColor("#273449"))
+
+                # Cores das ações
+                if acao == "CADASTRO":
+                    item.setForeground(QColor("#22C55E"))
+
+                elif acao == "ATUALIZAÇÃO":
+                    item.setForeground(QColor("#3B82F6"))
+
+                elif acao == "EXCLUSÃO":
+                    item.setForeground(QColor("#EF4444"))
+
+                elif acao == "PDF":
+                    item.setForeground(QColor("#A855F7"))
+
+                self.table.setItem(
+                    row_idx,
+                    col_idx,
+                    item
+                )
